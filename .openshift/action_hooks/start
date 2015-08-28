@@ -3,4 +3,5 @@
 # script. The application will work only if it binds to
 # $OPENSHIFT_DIY_IP:8080
 # nohup $OPENSHIFT_REPO_DIR/diy/testrubyserver.rb $OPENSHIFT_DIY_IP $OPENSHIFT_REPO_DIR/diy |& /usr/bin/logshifter -tag diy &
+
 nohup java -jar $DZF_HOME/dzone.feed-1.0.jar > $LOGS/dzf/log.out 2>&1 &
