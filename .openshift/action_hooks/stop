@@ -9,4 +9,4 @@
 #    kill `ps -ef | grep testrubyserver.rb | grep -v grep | awk '{ print $2 }'` > /dev/null 2>&1
 # fi
 
-kill $(jps | grep -v Jps | cut -d ' ' -f 1 | awk '{print $1}')
+kill $(jps | grep -v Jps | cut -d ' ' -f 1 | awk '{print $1}') > $LOGS/dzf/kill.out 2>&1 &
