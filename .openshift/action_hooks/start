@@ -6,4 +6,4 @@
 
 source ~/app-root/data/.bash_profile
 cp ~/app-deployments/current/repo/java/DZoneFeed/target/dzone.feed-1.0.jar $DZF_HOME/
-nohup java -jar $DZF_HOME/dzone.feed-1.0.jar --spring.config.location=$DZF_HOME/application.properties > $LOGS/dzf/log.out 2>&1 &
+nohup java -jar $DZF_HOME/dzone.feed-1.0.jar --spring.config.location=$DZF_HOME/application.yml > $LOGS/dzf/log.out 2>&1 &
