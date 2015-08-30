@@ -1,0 +1,30 @@
+# server.address=127.0.0.1
+
+# MONGO CONFIG
+spring:
+    data:
+        mongodb:
+            host: 127.0.0.1
+            port: 27017
+            database: dzf
+
+# LINKS FETCHER CONFIG
+links:
+    daysToFetch: 7
+    fetchInitialDelayMs: 10
+    fetchFrequencyMs: 3600000
+
+# ARTICLES FETCHER CONFIG
+articles:
+    articlesToFetch: 100
+    fetchInitialDelayMs: 10
+    fetchFrequencyMs: 3600000
+    categories:
+        1: java
+        3: bigdata
+        5: database
+        7: integration
+        8: iot
+        9: mobile
+        10: performance
+        11: webdev
