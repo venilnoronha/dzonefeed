@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.view.feed.AbstractRssFeedView;
 
 import com.rometools.rome.feed.rss.Channel;
-import com.rometools.rome.feed.rss.Content;
+import com.rometools.rome.feed.rss.Description;
 import com.rometools.rome.feed.rss.Guid;
 import com.rometools.rome.feed.rss.Item;
 import com.venilnoronha.dzone.feed.model.Link;
@@ -18,6 +18,7 @@ import com.venilnoronha.dzone.feed.model.Link;
 public class LinksRSSView extends AbstractRssFeedView {
 
 	private static final String DZONE = "http://www.dzone.com";
+	
 	private List<Link> links;
 
 	public LinksRSSView(List<Link> links) {
@@ -42,12 +43,14 @@ public class LinksRSSView extends AbstractRssFeedView {
 			guid.setValue(DZONE + link.getLinkGo());
 			guid.setPermaLink(true);
 			item.setGuid(guid);
-			Content content = new Content();
-			content.setValue(link.getLinkDescription());
-			item.setContent(content);
 			item.setTitle(link.getTitle());
+			item.setAuthor(link.getAuthor());
 			item.setLink(DZONE + link.getLinkGo());
 			item.setPubDate(link.getLinkDate());
+			Description desc = new Description();
+			desc.setType("plain");
+			desc.setValue(link.getLinkDescription());
+			item.setDescription(desc);
 			items.add(item);
 		}
 		return items;

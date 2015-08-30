@@ -15,10 +15,11 @@ public class Link {
 
 	@Id
 	private String mongoId;
-	
+
 	@JsonProperty("id")
 	private Long linkId;
 	private String title;
+	private String author;
 	private String linkDescription;
 	private Date linkDate;
 	private String linkSource;
@@ -46,6 +47,14 @@ public class Link {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public String getLinkDescription() {
