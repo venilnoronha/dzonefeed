@@ -11,6 +11,7 @@ import org.springframework.web.servlet.view.feed.AbstractRssFeedView;
 
 import com.rometools.rome.feed.rss.Channel;
 import com.rometools.rome.feed.rss.Content;
+import com.rometools.rome.feed.rss.Guid;
 import com.rometools.rome.feed.rss.Item;
 import com.venilnoronha.dzone.feed.model.Link;
 
@@ -37,6 +38,10 @@ public class LinksRSSView extends AbstractRssFeedView {
 		List<Item> items = new ArrayList<Item>(links.size());
 		for (Link link : links) {
 			Item item = new Item();
+			Guid guid = new Guid();
+			guid.setValue(DZONE + link.getLinkGo());
+			guid.setPermaLink(true);
+			item.setGuid(guid);
 			Content content = new Content();
 			content.setValue(link.getLinkDescription());
 			item.setContent(content);
