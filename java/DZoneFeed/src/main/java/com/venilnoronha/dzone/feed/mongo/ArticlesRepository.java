@@ -1,5 +1,7 @@
 package com.venilnoronha.dzone.feed.mongo;
 
+import java.util.Date;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -13,5 +15,7 @@ public interface ArticlesRepository
 	public Page<Article> findByCategory(String category, Pageable page);
 
 	public Article findByArticleId(Long articleId);
+
+	public Page<Article> findByArticleDateBetween(Date since, Date until, Pageable page);
 
 }
