@@ -1,4 +1,4 @@
-package com.venilnoronha.dzone.feed.links;
+package com.venilnoronha.dzone.feed.fetcher;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
