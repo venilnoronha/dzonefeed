@@ -12,7 +12,9 @@ import com.venilnoronha.dzone.feed.model.Link;
 public interface LinksRepository extends MongoRepository<Link, String>, PagingAndSortingRepository<Link, String> {
 
 	public Link findByLinkId(Long linkId);
+
 	public Page<Link> findAll(Pageable pageable);
+
 	public Page<Link> findByLinkDateBetween(Date since, Date until, Pageable page);
 
 }

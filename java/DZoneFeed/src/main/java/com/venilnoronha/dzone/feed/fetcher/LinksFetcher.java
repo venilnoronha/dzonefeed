@@ -64,7 +64,7 @@ public class LinksFetcher {
 	}
 	
 	private void dump(List<Link> links) {
-		LOGGER.info("Starting link dump...");
+		LOGGER.info("Starting links dump...");
 		int no = 0;
 		for (Link link : links) {
 			Long linkId = link.getLinkId();
