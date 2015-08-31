@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.venilnoronha.dzone.feed.model.Link;
 import com.venilnoronha.dzone.feed.mongo.LinksRepository;
+import com.venilnoronha.dzone.feed.util.HttpUtils;
 
 @Controller
 public class LinksRSSController {
@@ -33,8 +35,9 @@ public class LinksRSSController {
 	private LinksRepository linksRepository;
 	
 	@RequestMapping(value="/rss/links", method = RequestMethod.GET)
-	public ModelAndView linksRssByLastModified(HttpEntity<byte[]> requestEntity, HttpServletResponse response)
-			throws ParseException {
+	public ModelAndView linksRssByLastModified(HttpEntity<byte[]> requestEntity, HttpServletRequest request,
+			HttpServletResponse response) throws ParseException {
+		HttpUtils.logUserIP("LinksRSS", request);
 		String lastModified = requestEntity.getHeaders().getFirst("If-Modified-Since");
 		if (lastModified == null) {
 			lastModified = requestEntity.getHeaders().getFirst("If-None-Match");
