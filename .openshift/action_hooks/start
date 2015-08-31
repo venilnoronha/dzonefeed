@@ -1,9 +1,0 @@
-#!/bin/bash
-# The logic to start up your application should be put in this
-# script. The application will work only if it binds to
-# $OPENSHIFT_DIY_IP:8080
-# nohup $OPENSHIFT_REPO_DIR/diy/testrubyserver.rb $OPENSHIFT_DIY_IP $OPENSHIFT_REPO_DIR/diy |& /usr/bin/logshifter -tag diy &
-
-source ~/app-root/data/.bash_profile
-cp ~/app-deployments/current/repo/java/DZoneFeed/target/dzone.feed-1.0.jar $DZF_HOME/
-nohup java -jar $DZF_HOME/dzone.feed-1.0.jar --spring.config.location=$DZF_HOME/application.yml > $LOGS/dzf/log.out 2>&1 &
