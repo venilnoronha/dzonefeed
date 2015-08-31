@@ -1,4 +1,4 @@
-package com.venilnoronha.dzone.feed.controller;
+package com.venilnoronha.dzone.feed.web;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,43 +13,44 @@ import com.rometools.rome.feed.rss.Channel;
 import com.rometools.rome.feed.rss.Description;
 import com.rometools.rome.feed.rss.Guid;
 import com.rometools.rome.feed.rss.Item;
-import com.venilnoronha.dzone.feed.model.Link;
+import com.venilnoronha.dzone.feed.model.Article;
 
-public class LinksRSSView extends AbstractRssFeedView {
+public class ArticlesRSSView extends AbstractRssFeedView {
 
 	private static final String DZONE = "http://www.dzone.com";
-	
-	private List<Link> links;
 
-	public LinksRSSView(List<Link> links) {
-		this.links = links;
+	private List<Article> articles;
+
+	public ArticlesRSSView(List<Article> articles) {
+		this.articles = articles;
 	}
 
 	@Override
 	protected void buildFeedMetadata(Map<String, Object> model, Channel feed, HttpServletRequest request) {
-		feed.setTitle("DZone Links RSS");
-		feed.setDescription("RSS feed for dzone.com links");
-		feed.setLink("http://www.dzone.com/links");
+		feed.setTitle("DZone Articles RSS");
+		feed.setDescription("RSS feed for dzone.com articles");
+		feed.setLink("http://www.dzone.com/");
 		super.buildFeedMetadata(model, feed, request);
 	}
 
 	@Override
 	protected List<Item> buildFeedItems(Map<String, Object> model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		List<Item> items = new ArrayList<Item>(links.size());
-		for (Link link : links) {
+		List<Item> items = new ArrayList<Item>(articles.size());
+		for (Article article : articles) {
 			Item item = new Item();
 			Guid guid = new Guid();
-			guid.setValue(DZONE + link.getLinkGo());
+			guid.setValue(DZONE + article.getArticleLink());
 			guid.setPermaLink(true);
 			item.setGuid(guid);
-			item.setTitle(link.getTitle());
-			item.setAuthor(link.getAuthor());
-			item.setLink(DZONE + link.getLinkGo());
-			item.setPubDate(link.getLinkDate());
+			item.setTitle(article.getTitle());
+			item.setAuthor(article.getAuthorName());
+			item.setLink(DZONE + article.getArticleLink());
+			item.setPubDate(article.getArticleDate());
 			Description desc = new Description();
 			desc.setType("plain");
-			desc.setValue(link.getLinkDescription());
+			desc.setValue(article.getArticleContent());
+			// article.getImageUrl()
 			item.setDescription(desc);
 			items.add(item);
 		}

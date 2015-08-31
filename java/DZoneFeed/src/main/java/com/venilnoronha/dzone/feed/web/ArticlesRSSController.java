@@ -1,4 +1,4 @@
-package com.venilnoronha.dzone.feed.controller;
+package com.venilnoronha.dzone.feed.web;
 
 import java.text.DateFormat;
 import java.text.ParseException;
