@@ -16,6 +16,8 @@
 package com.venilnoronha.dzone.feed.fetcher;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -74,12 +76,13 @@ public class ArticlesFetcher {
 	)
 	public void fetch() throws InterruptedException {
 		LOGGER.info("Starting articles fetch...");
+		List<Article> allArticles = new ArrayList<>();
 		for (Map.Entry<Integer, String> categoryEntry : articles().getCategories().entrySet()) {
 			Integer portal = categoryEntry.getKey();
 			String category = categoryEntry.getValue();
 			LOGGER.info("Starting " + category + " articles fetch...");
 			Date lastDumped = findLastDumpedArticle(category);
-			List<Article> allArticles = new ArrayList<>();
+			List<Article> categoryArticles = new ArrayList<>();
 			Integer from = null;
 			Integer page = null;
 			boolean completed = false;
@@ -92,7 +95,7 @@ public class ArticlesFetcher {
 					article.setCategory(category);
 					if (lastDumped != null) {
 						if (article.getArticleDate().after(lastDumped)) {
-							allArticles.add(article);
+							categoryArticles.add(article);
 						}
 						else {
 							completed = true;
@@ -100,8 +103,8 @@ public class ArticlesFetcher {
 						}
 					}
 					else {
-						if (allArticles.size() < articlesToFetch) {
-							allArticles.add(article);
+						if (categoryArticles.size() < articlesToFetch) {
+							categoryArticles.add(article);
 						}
 						else {
 							completed = true;
@@ -116,14 +119,21 @@ public class ArticlesFetcher {
 				page = page == null ? 2 : page + 1;
 				Thread.sleep(1000); // Sleep a while
 			} while (!completed);
-			dump(allArticles, category);
+			allArticles.addAll(categoryArticles);
 			LOGGER.info("Completed " + category + " articles fetch");
 		}
+		dump(allArticles);
 		LOGGER.info("Completed articles fetch");
 	}
 	
-	private void dump(List<Article> articles, String category) {
-		LOGGER.info("Starting " + category + " articles dump...");
+	private void dump(List<Article> articles) {
+		// Sort by earliest first
+		Collections.sort(articles, new Comparator<Article>() {
+			@Override public int compare(Article a1, Article a2) {
+				return a1.getArticleDate().compareTo(a2.getArticleDate());
+			}
+		});
+		LOGGER.info("Starting articles dump...");
 		int no = 0;
 		for (Article article : articles) {
 			Long articleId = article.getArticleId();
@@ -133,7 +143,7 @@ public class ArticlesFetcher {
 				no ++;
 			}
 		}
-		LOGGER.info("Dumped " + no + " " + category + " articles");
+		LOGGER.info("Dumped " + no + " articles");
 	}
 
 	private List<Article> extractArticles(ArticlesResponse resp) {

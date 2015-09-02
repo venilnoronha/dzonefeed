@@ -17,6 +17,8 @@ package com.venilnoronha.dzone.feed.fetcher;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -64,8 +66,9 @@ public class LinksFetcher {
 		LOGGER.info("Starting links fetch...");
 		Date lastDumpDt = findLastDumpedLink();
 		DateIterator di = prepareDateIterator(lastDumpDt);
+		List<Link> allLinks = new ArrayList<>();
+		boolean completed = false;
 		for (Date day : di) {
-			List<Link> allLinks = new ArrayList<>();
 			List<Link> links;
 			Integer from = null;
 			do {
@@ -73,16 +76,33 @@ public class LinksFetcher {
 				LinksResponse resp = fetchLinks(day, from);
 				links = extractLinks(resp);
 				LOGGER.info("Fetched " + links.size() + " links");
-				allLinks.addAll(links);
+				for (Link link : links) {
+					if (lastDumpDt == null || link.getLinkDate().after(lastDumpDt)) {
+						allLinks.add(link);
+					}
+					else {
+						completed = true;
+						break;
+					}
+				}
 				from = from == null ? links.size() : from + links.size();
 				Thread.sleep(1000); // Sleep a while
-			} while (!links.isEmpty());
-			dump(allLinks); // Dump per day
+			} while (!links.isEmpty() && !completed);
+			if (completed) {
+				break;
+			}
 		}
+		dump(allLinks);
 		LOGGER.info("Completed links fetch");
 	}
 	
 	private void dump(List<Link> links) {
+		// Sort by earliest first
+		Collections.sort(links, new Comparator<Link>() {
+			@Override public int compare(Link l1, Link l2) {
+				return l1.getLinkDate().compareTo(l2.getLinkDate());
+			}
+		});
 		LOGGER.info("Starting links dump...");
 		int no = 0;
 		for (Link link : links) {
