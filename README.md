@@ -4,5 +4,6 @@ A java (Spring Boot) implementation for fetching, storing and rendering dzone.co
 
 #### Feeds Exposed
 
-**/rss/links** - The latest submitted links.
+**/rss/links** - The latest submitted links.  
+
 **/rss/articles** - The latest submitted articles across several categories (see _application.yml_ for category config).
