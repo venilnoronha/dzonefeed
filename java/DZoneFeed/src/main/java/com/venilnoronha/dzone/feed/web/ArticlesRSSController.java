@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -48,7 +49,9 @@ import com.venilnoronha.dzone.feed.util.HttpUtils;
 public class ArticlesRSSController {
 
 	private static final DateFormat HTTP_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
-	private static final int PAGE_SIZE = 1000;
+
+	@Value("${articles.feedSize}")
+	private int feedSize;
 	
 	@Autowired
 	private ArticlesRepository articlesRepository;
@@ -61,7 +64,7 @@ public class ArticlesRSSController {
 		if (lastModified == null) {
 			lastModified = requestEntity.getHeaders().getFirst("If-None-Match");
 		}
-		PageRequest page = new PageRequest(0, PAGE_SIZE, Direction.DESC, "articleDate");
+		PageRequest page = new PageRequest(0, feedSize, Direction.DESC, "articleDate");
 		Page<Article> articlePage;
 		if (lastModified != null) {
 			Date lastModifiedDt = HTTP_FORMAT.parse(lastModified);

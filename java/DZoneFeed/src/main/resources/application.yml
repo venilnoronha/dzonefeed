@@ -10,12 +10,14 @@ spring:
 
 # LINKS FETCHER CONFIG
 links:
+    feedSize: 500
     daysToFetch: 7
     fetchInitialDelayMs: 10
     fetchFrequencyMs: 3600000
 
 # ARTICLES FETCHER CONFIG
 articles:
+    feedSize: 1000
     articlesToFetch: 100
     fetchInitialDelayMs: 10
     fetchFrequencyMs: 3600000
