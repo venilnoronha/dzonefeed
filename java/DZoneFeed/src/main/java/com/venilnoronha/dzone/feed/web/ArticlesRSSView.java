@@ -68,7 +68,7 @@ public class ArticlesRSSView extends AbstractRssFeedView {
 			item.setPubDate(article.getArticleDate());
 			Description desc = new Description();
 			desc.setType("plain");
-			if (article.getImageUrl() != null) {
+			if (article.getImageUrl() != null && !article.getImageUrl().trim().isEmpty()) {
 				desc.setValue("<img src=\"http:" + article.getImageUrl() + "\" /><br/>" + article.getArticleContent());
 			}
 			else {
