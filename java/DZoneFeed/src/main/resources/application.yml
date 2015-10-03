@@ -30,3 +30,10 @@ articles:
         9: mobile
         10: performance
         11: webdev
+
+# CLEANER CONFIG
+cleaner:
+    linksToKeep: 5000
+    articlesToKeep: 5000
+    cleanInitialDelayMs: 10
+    cleanFrequencyMs: 86400000
